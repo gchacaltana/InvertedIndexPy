@@ -15,17 +15,18 @@ if __name__ == "__main__":
     path_directory_docs = str(pathlib.Path(
         __file__).parent.resolve()) + "/documents/*.txt"
     ii = InvertedIndex(path_directory_docs)
-    
+
     # Búsqueda de palabras
     search_words = ["solicitud"]
-    print('\nBúsqueda de: ' + repr(search_words))
+    print('\nBusqueda de: ' + repr(search_words))
     pp(sorted(ii.search_words(search_words)))
 
     search_words = ["banco"]
-    print('\nBúsqueda de: ' + repr(search_words))
+    print('\nBusqueda de: ' + repr(search_words))
     pp(sorted(ii.search_words(search_words)))
 
-    print('\nIntersección de palabras ')
+    # Búsqueda de documentos por intersección de palabras
+    print('\nInterseccion de palabras ')
     search_words = ["solicitud", "banco"]
-    print('Búsqueda de: ' + repr(search_words))
+    print('Busqueda de: ' + repr(search_words))
     pp(sorted(ii.search_words(search_words)))
