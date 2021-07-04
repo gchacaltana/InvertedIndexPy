@@ -17,6 +17,15 @@ if __name__ == "__main__":
     ii = InvertedIndex(path_directory_docs)
     
     # Búsqueda de palabras
-    search_words = ["problemas"]
+    search_words = ["solicitud"]
     print('\nBúsqueda de: ' + repr(search_words))
+    pp(sorted(ii.search_words(search_words)))
+
+    search_words = ["banco"]
+    print('\nBúsqueda de: ' + repr(search_words))
+    pp(sorted(ii.search_words(search_words)))
+
+    print('\nIntersección de palabras ')
+    search_words = ["solicitud", "banco"]
+    print('Búsqueda de: ' + repr(search_words))
     pp(sorted(ii.search_words(search_words)))

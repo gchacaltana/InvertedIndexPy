@@ -38,4 +38,7 @@ class InvertedIndex(object):
 
     # Búsqueda de palabras en el índice invertido
     def search_words(self, words):
-        return reduce(set.intersection, (self.dict_inv_idx[word] for word in words), set(self.texts.keys()))
+        try:
+            return reduce(set.intersection, (self.dict_inv_idx[word] for word in words), set(self.texts.keys()))
+        except (Exception, KeyError, IndexError) as err:
+            return ""
