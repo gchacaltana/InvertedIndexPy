@@ -15,12 +15,13 @@ from functools import reduce
 
 
 class InvertedIndex(object):
-    def __init__(self, path_directory_documents):
+    def __init__(self, path_directory_documents, filter_files):
         self.texts = {}
         self.words = set()
         self.inverted_index = {}
         self.encoding = "utf8"
         self.path_directory = path_directory_documents
+        self.filter_files = filter_files
         self.name_file_inv_idx = "data_inv_idx.txt"
         self.run()
 
@@ -32,7 +33,7 @@ class InvertedIndex(object):
     # Carga el contenido de los ficheros *.txt
     def load_documents(self):
         counter_files = 0
-        for file in glob(self.path_directory):
+        for file in glob(self.path_directory + self.filter_files):
             counter_files = counter_files + 1
             with open(file, encoding=self.encoding) as f:
                 content = f.read().split()
@@ -44,13 +45,13 @@ class InvertedIndex(object):
     def create(self):
         self.inverted_index = {word: set(txt for txt, words in self.texts.items()
                                          if word in words) for word in self.words}
-        print("Se creo el indice invertido")
+        print("Se creo el índice invertido")
 
     def save(self):
         f = open(self.name_file_inv_idx, "w")
         f.write(str(self.inverted_index))
         f.close()
-        print("Se guardo la informacion del indice invertido en disco")
+        print("Se guardo la información del índice invertido en disco")
 
     def read_data(self):
         if not self.inverted_index:
@@ -58,6 +59,7 @@ class InvertedIndex(object):
             content = f.read()
             f.close()
             self.inverted_index = ast.literal_eval(content)
+            print("Se recuperó el índice invertido de disco")
 
     # Búsqueda de palabras en el índice invertido
     def search_words(self, words):
