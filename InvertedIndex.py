@@ -47,12 +47,14 @@ class InvertedIndex(object):
                                          if word in words) for word in self.words}
         print("Se creo el índice invertido")
 
+    # Almacena el contenido de la estructura indice invertido en disco (FS)
     def save(self):
         f = open(self.name_file_inv_idx, "w")
         f.write(str(self.inverted_index))
         f.close()
         print("Se guardo la información del índice invertido en disco")
 
+    # Recupera el contenido de la estructura índice invertido del disco (FS)
     def read_data(self):
         if not self.inverted_index:
             f = open (self.name_file_inv_idx,'r')
@@ -67,4 +69,4 @@ class InvertedIndex(object):
         try:
             return reduce(set.intersection, (self.inverted_index[word] for word in words), set(self.texts.keys()))
         except (Exception, KeyError, IndexError) as err:
-            return ""
+            return ''
