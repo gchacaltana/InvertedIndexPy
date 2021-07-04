@@ -143,3 +143,6 @@ dmypy.json
 # Ignore all local history of files
 .history
 .ionide
+
+### Ignore for App
+data_inv_idx.txt
