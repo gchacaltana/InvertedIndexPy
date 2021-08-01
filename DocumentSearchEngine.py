@@ -24,8 +24,8 @@ class DocumentSearchEngine(object):
         self.encoding = "utf8"
         self.name_db_search_engine = "data_documents_search_engine.txt"
         self.name_key_search_engine = "key_documents_search_engine.txt"
-        self.path_directory = "c:/documents/prueba/"
-        self.strange_characters = '._()[]"$“”%-:@#!|?¿{}'
+        self.path_directory = "c:/documents/reglamento/"
+        self.strange_characters = '._()[]"$“”%-:,@#!|?¿{}'
 
     def insert_documents(self, documents):
         self.documents = documents
@@ -40,7 +40,16 @@ class DocumentSearchEngine(object):
             counter = counter + 1
             print("Procesando documento [{}]: {}".format(counter,doc[0]))
             tokens = [x.lower().translate({ord(c):None for c in self.strange_characters}) for x in str(doc[1]).split()]
+            n = len(tokens)
+            limit = n - 2
+            biwords = []
+            for w in range(n):
+                if (w<=limit):
+                    biwords.append(tokens[w]+" "+tokens[w+1])
+            
+            tokens.extend(biwords)
             self.words |= set(tokens)
+            self.words.update(set(biwords))
             self.texts[doc[0].split('\\')[-1]] = tokens
 
     # Crea el índice invertido
@@ -63,7 +72,6 @@ class DocumentSearchEngine(object):
     def query(self, words):
         self.read_data()
         try:
-            #return (self.documents_search_engine[word] for word in words)
             return reduce(set.intersection, (self.documents_search_engine[word] for word in words), set(self.keys_search_engine.keys()))
         except (Exception, KeyError, IndexError) as err:
             return ''
@@ -81,6 +89,15 @@ class DocumentSearchEngine(object):
             self.keys_search_engine = ast.literal_eval(content)
     
     def get_content_file(self,file):
+        """
+        Método que devuelve el contenido de un archivo
+
+        Args:
+            file (string): Nombre del documento
+
+        Returns:
+            [string]: Devolver el contenido del documento.
+        """
         f = open(str(self.path_directory+file),encoding='utf8')
         content = f.read()
         f.close()
