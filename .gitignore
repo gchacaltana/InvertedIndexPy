@@ -145,4 +145,7 @@ dmypy.json
 .ionide
 
 ### Ignore for App
+documents/*
 data_inv_idx.txt
+data_documents_search_engine.txt
+key_documents_search_engine.txt
